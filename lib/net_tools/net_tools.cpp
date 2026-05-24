@@ -2,7 +2,7 @@
 
 NetTools::NetTools(){}
 
-NetTools NetTools;
+NetTools net_tools;
 
 void NetTools::enable_logging() {
     _echo_allow = true;
@@ -34,6 +34,7 @@ void NetTools::reconnect(){
     	if ((millis() - _reconnect_timer > RECONNECT_INTERVAL) && _reconnect_allow) {
 		if (_echo_allow) Serial.println("\n\tAttempting to reconnecting\n");
 		WiFi.reconnect();
+		_reconnect_allow = false;
 		_reconnect_timer = millis();
 	}     
 }
@@ -43,16 +44,16 @@ void NetTools::_event_handler(WiFiEvent_t event, WiFiEventInfo_t info) {
     switch(event)
     {
     case ARDUINO_EVENT_WIFI_STA_GOT_IP:
-        NetTools.is_connected = true;
-		if (NetTools._echo_allow){ 
+        net_tools.is_connected = true;
+		if (net_tools._echo_allow){ 
             Serial.println("\tWiFi connected\n");
             Serial.println(WiFi.localIP());}
         break;
 	
 	case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
-        NetTools.is_connected = false;
-        NetTools._should_reconnect = true;
-        if (NetTools._echo_allow) Serial.println("[WiFi] Disconnected");
+        net_tools.is_connected = false;
+        net_tools._reconnect_allow = true;
+        if (net_tools._echo_allow) Serial.println("[WiFi] Disconnected");
         break;
 
     default:
@@ -60,7 +61,7 @@ void NetTools::_event_handler(WiFiEvent_t event, WiFiEventInfo_t info) {
 	}
 }
 
-String _get_device_mac() {
+String NetTools::get_device_mac() {
     String mac_address = WiFi.macAddress(); 
     mac_address.replace(":", "");           
     return mac_address;

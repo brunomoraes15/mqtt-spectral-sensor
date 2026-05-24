@@ -8,7 +8,7 @@
 class MQTT {
     public:
         MQTT();
-        void setup();
+        void setup(const char * mqtt_broker, int mqtt_port);
         void maintain();
 
     private:
@@ -20,6 +20,6 @@ class MQTT {
         unsigned long _retry_timer;
         bool _is_first;
 
-}
+};
 
 extern MQTT mqtt;

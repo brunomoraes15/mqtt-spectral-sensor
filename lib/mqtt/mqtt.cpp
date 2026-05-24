@@ -18,7 +18,7 @@ void MQTT::maintain() {
         if (reconnect_allow){
             _is_first = false;
             Serial.println("Attempting to connect to the broker");
-            if (_mqtt_client.connect(_get_device_mac())) {
+            if (_mqtt_client.connect(net_tools.get_device_mac().c_str())) {
                 Serial.println("MQTT connection stablished");
                 _is_first = true;
             }

@@ -12,7 +12,7 @@ class NetTools {
 		void enable_logging();
 		void setup(const char *, const char *);
 		void reconnect();
-		String _get_device_mac();
+		String get_device_mac();
         bool is_connected = false;
 
     private:
@@ -24,5 +24,5 @@ class NetTools {
 		
 };
 
-extern NetTools NetTools;
+extern NetTools net_tools;
 

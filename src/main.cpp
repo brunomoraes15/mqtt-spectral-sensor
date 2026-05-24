@@ -1,30 +1,21 @@
 #include <Arduino.h>
 #include "net_tools.h"
 #include "credentials.h"
-#include "mqtt.h
-
-// put function declarations here:
-int myFunction(int, int);
+#include "mqtt.h"
 
 void setup() {
     Serial.begin(BAUD);
-    Serial.println("Started");
-    NetTools.setup(WIFI_SSID, WIFI_PASS);
+    net_tools.setup(WIFI_SSID, WIFI_PASS);
     mqtt.setup(MQTT_BROKER, MQTT_PORT);
 
 }
 
 void loop() {
-  if (NetTools.is_connected){
+  if (net_tools.is_connected){
     mqtt.maintain();
   }
   else {
-    NetTools.reconnect();
+    net_tools.reconnect();
     
   }
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
 }
