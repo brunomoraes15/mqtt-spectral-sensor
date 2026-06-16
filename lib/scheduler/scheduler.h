@@ -1,0 +1,14 @@
+#pragma once
+#define CHECK_INTERVAL 2000
+#include <Arduino.h>
+class Scheduler {
+    public:
+        Scheduler();
+        void start();
+        void check();
+
+    private:
+        unsigned long _check_timer;
+            
+};
+extern Scheduler scheduler;

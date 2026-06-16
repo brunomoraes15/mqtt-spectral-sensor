@@ -2,7 +2,7 @@
 #include "net_tools.h"
 
 
-MQTT::MQTT() {}
+MQTT::MQTT() : _retry_timer(0), _is_first(true) {}
 
 MQTT mqtt;
 
@@ -18,13 +18,16 @@ void MQTT::maintain() {
         if (reconnect_allow){
             _is_first = false;
             Serial.println("Attempting to connect to the broker");
+            Serial.println(net_tools.get_device_mac().c_str());
             if (_mqtt_client.connect(net_tools.get_device_mac().c_str())) {
                 Serial.println("MQTT connection stablished");
                 _is_first = true;
+                _is_connected = true;
             }
             else{
                 Serial.println("\nFailed to connect to the broker ");
                 _log_current_state();
+                _is_connected = false;
             }
 
             _retry_timer = millis();
@@ -57,3 +60,4 @@ void MQTT::_log_current_state()
 {   
     Serial.println(_get_state(_mqtt_client.state()));
 }
+

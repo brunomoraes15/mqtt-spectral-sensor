@@ -14,18 +14,11 @@ void NetTools::setup(const char * WIFI_SSID, const char * WIFI_PASS){
     WiFi.onEvent(_event_handler);
     WiFi.persistent(false);
     WiFi.begin(WIFI_SSID, WIFI_PASS);
-    if (_echo_allow){
-        while (WiFi.status() != WL_CONNECTED) {
-            delay(500);
-            Serial.println("Connecting to the Network");
-        }
+    if (_echo_allow && WiFi.status() == WL_CONNECTED){
         if (WiFi.status() == WL_CONNECTED) {
             Serial.println("[WiFi] Connected");
             Serial.print("[WiFi] IP: ");
             Serial.println(WiFi.localIP());
-        }
-        else {
-            Serial.println("[WiFi] Connection timeout");
         }
     }
 }

@@ -14,6 +14,7 @@ class NetTools {
 		void reconnect();
 		String get_device_mac();
         bool is_connected = false;
+		
 
     private:
 		bool _reconnect_allow = true;
