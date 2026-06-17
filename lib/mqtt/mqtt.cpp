@@ -6,14 +6,24 @@ MQTT::MQTT() : _retry_timer(0), _is_first(true) {}
 
 MQTT mqtt;
 
+
+
 void MQTT::setup(const char * mqtt_broker, int mqtt_port) {
     _mqtt_client.setClient(_wifi_client);
     _mqtt_client.setServer(mqtt_broker, mqtt_port);
-
+    
 }
 
+
+
 void MQTT::maintain() {
+    if (!net_tools.is_connected) {
+        _is_connected = false;
+        return;
+    }
+
     if (!_mqtt_client.connected()){
+        _is_connected = false;
         bool reconnect_allow = _is_first || millis() - _retry_timer > RETRY_INTERVAL;
         if (reconnect_allow){
             _is_first = false;
@@ -23,6 +33,8 @@ void MQTT::maintain() {
                 Serial.println("MQTT connection stablished");
                 _is_first = true;
                 _is_connected = true;
+                _subs_to_all();
+
             }
             else{
                 Serial.println("\nFailed to connect to the broker ");
@@ -32,8 +44,9 @@ void MQTT::maintain() {
 
             _retry_timer = millis();
     }
-}
+    }
     else {
+        _is_connected = true;
         _mqtt_client.loop();
     }
 }
@@ -60,4 +73,3 @@ void MQTT::_log_current_state()
 {   
     Serial.println(_get_state(_mqtt_client.state()));
 }
-

@@ -19,6 +19,10 @@ void MQTT::publish(const char * topic, int number) {
 
 void MQTT::_publish(const char * topic, const char * payload) {
     if (_mqtt_client.connected()) {
+        _is_connected = true;
         _mqtt_client.publish(topic, payload);
+    }
+    else {
+        _is_connected = false;
     }
 }

@@ -18,7 +18,6 @@ class NetTools {
 
     private:
 		bool _reconnect_allow = true;
-		bool _first_disconnect = true;
 		bool _echo_allow = true;
         unsigned long _reconnect_timer;
 		static void _event_handler(WiFiEvent_t, WiFiEventInfo_t);
@@ -26,4 +25,3 @@ class NetTools {
 };
 
 extern NetTools net_tools;
-

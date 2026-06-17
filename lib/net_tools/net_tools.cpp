@@ -1,6 +1,6 @@
 #include "net_tools.h"
 
-NetTools::NetTools(){}
+NetTools::NetTools() : _reconnect_timer(0) {}
 
 NetTools net_tools;
 
