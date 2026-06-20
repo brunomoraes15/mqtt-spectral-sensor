@@ -14,11 +14,11 @@ class NetTools {
 		void reconnect();
 		String get_device_mac();
         bool is_connected = false;
+		bool _echo_allow = true;
 		
 
     private:
 		bool _reconnect_allow = true;
-		bool _echo_allow = true;
         unsigned long _reconnect_timer;
 		static void _event_handler(WiFiEvent_t, WiFiEventInfo_t);
 		

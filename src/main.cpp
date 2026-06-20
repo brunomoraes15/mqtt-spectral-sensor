@@ -23,6 +23,6 @@ void loop() {
     net_tools.reconnect();
   }
 
-  mqtt.publish("test_topic", "test_payload");
-  delay(1000);
+  //mqtt.publish("test_topic", "test_payload");
+  //delay(1000);
 }

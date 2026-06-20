@@ -1,7 +1,7 @@
 #pragma once
-
-#define CHECK_INTERVAL 2000
 #include <Arduino.h>
+#define CHECK_INTERVAL 2000
+
 class Scheduler {
     public:
         Scheduler();
@@ -10,6 +10,9 @@ class Scheduler {
 
         static void message_handler(char *, char *);
     private:
+        bool _collection_active = false;
+        bool _collection_paused = false;
+        unsigned long _sample_count = 0;
         unsigned long _check_timer;
             
 };

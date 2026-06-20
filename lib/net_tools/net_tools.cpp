@@ -46,7 +46,7 @@ void NetTools::_event_handler(WiFiEvent_t event, WiFiEventInfo_t info) {
 	case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
         net_tools.is_connected = false;
         net_tools._reconnect_allow = true;
-        if (net_tools._echo_allow) Serial.println("[WiFi] Disconnected");
+        if (net_tools._echo_allow) Serial.println("WiFi Disconnected");
         break;
 
     default:
