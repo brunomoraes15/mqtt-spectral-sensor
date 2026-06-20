@@ -1,8 +1,11 @@
 #include "scheduler.h"
 #include "mqtt.h"
+#include "sensor.h"
+#include "package_builder.h"
 
 Scheduler::Scheduler() : _check_timer(0) {}
 Scheduler scheduler;
+
 
 void Scheduler::message_handler(char * topic, char * message_buffer){
     String command = String(message_buffer);
