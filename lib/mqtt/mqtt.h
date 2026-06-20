@@ -24,16 +24,18 @@ class MQTT {
     private:
         WiFiClient _wifi_client;
         PubSubClient _mqtt_client;
+
         void _subs_to_all();
         void _log_current_state();
+        void _publish(const char * topic, const char * payload);
+        
         const char* _get_state(int state);
-        unsigned long _retry_timer;
+        const char ** _subs_list = nullptr;
+
         bool _is_first;
         bool _echo_allow = true;
         bool _initial_sub = true;
-        void _publish(const char * topic, const char * payload);
-
-        const char ** _subs_list = nullptr;
+        unsigned long _retry_timer;
         int _sub_list_length = 0;
 
         MessageHandler _stored_handler = nullptr;

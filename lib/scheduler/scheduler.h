@@ -1,5 +1,6 @@
 #pragma once
 #include <Arduino.h>
+
 #define CHECK_INTERVAL 2000
 
 class Scheduler {

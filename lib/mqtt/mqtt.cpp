@@ -6,15 +6,11 @@ MQTT::MQTT() : _retry_timer(0), _is_first(true) {}
 
 MQTT mqtt;
 
-
-
 void MQTT::setup(const char * mqtt_broker, int mqtt_port) {
     _mqtt_client.setClient(_wifi_client);
     _mqtt_client.setServer(mqtt_broker, mqtt_port);
     
 }
-
-
 
 void MQTT::maintain() {
     if (!net_tools.is_connected) {
