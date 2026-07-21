@@ -3,6 +3,11 @@
 
 #define CHECK_INTERVAL 2000
 
+enum class RunState {
+    IDLE,
+    RUNNING
+};
+
 class Scheduler {
     public:
         Scheduler();
@@ -11,10 +16,12 @@ class Scheduler {
 
         static void message_handler(char *, char *);
     private:
-        bool _collection_active = false;
-        bool _collection_paused = false;
+        RunState _state = RunState::IDLE;
         unsigned long _sample_count = 0;
         unsigned long _check_timer;
             
 };
+
+
+
 extern Scheduler scheduler;

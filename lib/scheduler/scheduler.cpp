@@ -13,25 +13,16 @@ void Scheduler::message_handler(char * topic, char * message_buffer){
     
     if (command == "start") {
         Serial.println("started collection");
-        scheduler._collection_active = true;
-        scheduler._collection_paused = false;
+        scheduler._state = RunState::RUNNING;
         scheduler._sample_count = 0;
-    } 
-    else if (command == "pause") {
-        Serial.println("paused collection");
-        scheduler._collection_paused = true;
-    } 
-    else if (command == "resume") {
-        Serial.println("resumed collection");
-        scheduler._collection_paused = false;
     } 
     else if (command == "stop") {
         Serial.println("stopped collection");
-        scheduler._collection_active = false;
+        scheduler._state = RunState::IDLE;
     } 
+ 
     else if (command == "status") {
-        String status = scheduler._collection_active ? "ACTIVE" : "INACTIVE";
-        status += scheduler._collection_paused ? " (PAUSED)" : "";
+        String status = scheduler._state == RunState::RUNNING ? "ACTIVE" : "INACTIVE";
         mqtt.publish("device/status", status.c_str());
     }
     else {
@@ -55,7 +46,7 @@ void Scheduler::check(){
     if (millis() - _check_timer > CHECK_INTERVAL){
         _check_timer = millis();
 
-        if (_collection_active && !_collection_paused) {
+        if (_state == RunState::RUNNING) {
            // _sample_count++;
         }
     
