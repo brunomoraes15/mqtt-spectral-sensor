@@ -17,6 +17,8 @@ Sensor::Sensor(
     _again = AS7341_GAIN_64X;
 };
 
+Sensor sensor(1, &Wire, 21, 22);
+
 bool Sensor::begin(){
     _wire->begin(_sda, _scl);
     if (!_sensor.begin(0x39, _wire)) return false;
