@@ -49,9 +49,9 @@ void Scheduler::check(){
         if (_state == RunState::RUNNING) {
            sensor_sample sample;
            if (sensor.read(sample)){
-            _sample_count++;
             String payload = Package::build_packgage(sample);
             mqtt.publish("sensor/data", payload.c_str());
+            _sample_count++;
            }
            else {
             Serial.println("Sensor read failed");

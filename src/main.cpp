@@ -9,14 +9,14 @@
 void setup() {
     net_tools.enable_logging();
     Serial.begin(BAUD);
+    scheduler.start();
+    net_tools.setup(WIFI_SSID, WIFI_PASS);
+    mqtt.setup(MQTT_BROKER, MQTT_PORT);
 
     if (!sensor.begin()) {
         Serial.println("Failed to initialize AS7341");
     }
 
-    scheduler.start();
-    net_tools.setup(WIFI_SSID, WIFI_PASS);
-    mqtt.setup(MQTT_BROKER, MQTT_PORT);
 }
 
 void loop() {

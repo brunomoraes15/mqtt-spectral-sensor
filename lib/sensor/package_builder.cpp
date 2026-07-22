@@ -17,7 +17,7 @@ String Package::build_packgage(const sensor_sample& sample){
     csv_pkg += String(sample.f7) + ",";
     csv_pkg += String(sample.f8) + ",";
     csv_pkg += String(sample.clear) + ",";
-    csv_pkg += String(sample.nir) + ",";
+    csv_pkg += String(sample.nir);
 
     return csv_pkg;
 }
