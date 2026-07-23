@@ -1,0 +1,8 @@
+{
+    "folders": [
+        { "path": "." },
+        { "path": "firmware" },
+        { "path": "server" },
+        { "path": "dashboard" }
+    ]
+}
