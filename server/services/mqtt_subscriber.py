@@ -14,7 +14,7 @@ class PersistenceSubscriber:
     def __init__(self, config: Config, writer: CsvWriter):
         self._config = config
         self._writer = writer
-        self._client = mqtt.Client(client_id=config.mqtt_client_id)
+        self._client = mqtt.Client(client_id=config.MQTT_CLIENT_ID)
         self._client.on_connect = self._on_connect
         self._client.on_message = self._on_message
         self._client.on_disconnect = self._on_disconnect
