@@ -11,7 +11,7 @@ typedef void (*MessageHandler)(char *, char *);
 class MQTT {
     public:
         MQTT();
-        void setup(const char * mqtt_broker, int mqtt_port);
+        void setup(const char * MQTT_BROKER, int MQTT_PORT);
         void maintain();
         void publish(const char * topic, const char * payload);
         void publish(const char * topic, int number);

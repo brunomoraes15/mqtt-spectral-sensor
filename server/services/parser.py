@@ -37,6 +37,4 @@ def validate_payload(payload: str) -> ValidationResult:
     return ValidationResult(True, fields=raw_fields)
 
 def parse_fields(raw_fields: List[str]) -> Dict[str, object]:
-    """Convert a list of raw string fields (already validated) into a
-    structured record keyed by schema field name."""
     return {field.name: field.data(value) for field, value in zip(pkg_columns, raw_fields)}

@@ -22,13 +22,13 @@ class PersistenceSubscriber:
     def run_forever(self) -> None:
         logger.info(
             "connecting to MQTT broker %s:%s",
-            self._config.mqtt_broker,
-            self._config.mqtt_port,
+            self._config.MQTT_BROKER,
+            self._config.MQTT_PORT,
         )
         self._client.connect(
-            self._config.mqtt_broker,
-            self._config.mqtt_port,
-            keepalive=self._config.mqtt_keepalive,
+            self._config.MQTT_BROKER,
+            self._config.MQTT_PORT,
+            keepalive=self._config.MQTT_KEEPALIVE,
         )
         self._client.loop_forever()
 
@@ -36,8 +36,8 @@ class PersistenceSubscriber:
         if rc != 0:
             logger.error("MQTT connect failed with code %s", rc)
             return
-        logger.info("connected, subscribing to '%s'", self._config.mqtt_topic)
-        client.subscribe(self._config.mqtt_topic)
+        logger.info("connected, subscribing to '%s'", self._config.MQTT_TOPIC)
+        client.subscribe(self._config.MQTT_TOPIC)
 
     def _on_disconnect(self, client, userdata, rc):
         logger.warning("disconnected from MQTT broker (code %s)", rc)

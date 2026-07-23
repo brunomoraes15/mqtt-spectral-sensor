@@ -5,7 +5,6 @@ class pkg_col(NamedTuple):
     name: str
     data: Callable[[str], object]
 
-# Order matches Package::build_packgage() exactly.
 pkg_columns: List[pkg_col] = [
     pkg_col("timestamp_ms", int),
     pkg_col("sensor_id", int),
@@ -18,7 +17,7 @@ pkg_columns: List[pkg_col] = [
     pkg_col("f3", int),
     pkg_col("f4", int),
     pkg_col("f5", int),
-    pkg_col("f6", int),
+    pkg_col("f6", int),    
     pkg_col("f7", int),
     pkg_col("f8", int),
     pkg_col("clear", int),
