@@ -26,7 +26,6 @@ void Scheduler::message_handler(char * topic, char * message_buffer){
         mqtt.publish("device/status", status.c_str());
     }
     else {
-        Serial.print("unknown command: ");
         Serial.println(message_buffer);
     }
 }
@@ -49,7 +48,7 @@ void Scheduler::check(){
         if (_state == RunState::RUNNING) {
            sensor_sample sample;
            if (sensor.read(sample)){
-            String payload = Package::build_packgage(sample);
+            String payload = Payload::build_payload(sample);
             mqtt.publish("sensor/data", payload.c_str());
             _sample_count++;
            }

@@ -1,23 +1,23 @@
 #include "package_builder.h"
 
-String Package::build_packgage(const sensor_sample& sample){
-    String csv_pkg;
-    csv_pkg += String(sample.timestamp_ms) + ",";
-    csv_pkg += String(sample.sensor_id) + ",";
-    csv_pkg += String(sample.mac_address) + ",";
-    csv_pkg += String(sample.again) + ",";
-    csv_pkg += String(sample.astep) + ",";
-    csv_pkg += String(sample.int_time) + ",";
-    csv_pkg += String(sample.f1) + ",";
-    csv_pkg += String(sample.f2) + ",";
-    csv_pkg += String(sample.f3) + ",";
-    csv_pkg += String(sample.f4) + ",";
-    csv_pkg += String(sample.f5) + ",";
-    csv_pkg += String(sample.f6) + ",";
-    csv_pkg += String(sample.f7) + ",";
-    csv_pkg += String(sample.f8) + ",";
-    csv_pkg += String(sample.clear) + ",";
-    csv_pkg += String(sample.nir);
+String Payload::build_payload(const sensor_sample& sample){
+    String csv_payload;
+    csv_payload += String(sample.timestamp_ms) + ",";
+    csv_payload += String(sample.sensor_id) + ",";
+    csv_payload += String(sample.mac_address) + ",";
+    csv_payload += String(sample.again) + ",";
+    csv_payload += String(sample.astep) + ",";
+    csv_payload += String(sample.int_time) + ",";
+    csv_payload += String(sample.f1) + ",";
+    csv_payload += String(sample.f2) + ",";
+    csv_payload += String(sample.f3) + ",";
+    csv_payload += String(sample.f4) + ",";
+    csv_payload += String(sample.f5) + ",";
+    csv_payload += String(sample.f6) + ",";
+    csv_payload += String(sample.f7) + ",";
+    csv_payload += String(sample.f8) + ",";
+    csv_payload += String(sample.clear) + ",";
+    csv_payload += String(sample.nir);
 
-    return csv_pkg;
+    return csv_payload;
 }

@@ -8,3 +8,4 @@
 .vscode/extensions.json
 lib/credentials/credentials.h
 
+test.py

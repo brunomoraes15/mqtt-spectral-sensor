@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include "sensor.h"
 
-class Package {
+class Payload {
     public:
-    static String build_packgage(const sensor_sample& sample);
+    static String build_payload(const sensor_sample& sample);
 };
