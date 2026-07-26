@@ -31,8 +31,8 @@ class FileWriter:
 
             row = [record[field] for field in PAYLOAD_FORMAT]
 
-            handle.writerow(row)
-            handle.flush()
+            handle.writer.writerow(row)
+            handle.file.flush()
 
     def close(self) -> None:
         with self._lock:
