@@ -40,7 +40,6 @@ class MQTT {
 
         MessageHandler _stored_handler = nullptr;
         static void _callback_wrapper(char * topic, byte * payload, unsigned int length);
-
         
 };
 
