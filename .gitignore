@@ -9,4 +9,7 @@
 lib/credentials/credentials.h
 
 test.py
+credentials.h
+.venv
+__pycache__/
 data/
