@@ -27,12 +27,12 @@ class FileWriter:
 
     def append(self, record: dict) -> None:
         with self._lock:
-            writer, file = self._get_writer(record)
+            handle = self._get_handle(record)
 
             row = [record[field] for field in PAYLOAD_FORMAT]
 
-            writer.writerow(row)
-            file.flush()
+            handle.writerow(row)
+            handle.flush()
 
     def close(self) -> None:
         with self._lock:
@@ -41,7 +41,7 @@ class FileWriter:
 
             self._handles.clear()
 
-    def _get_writer(self, record: dict) -> _Handle:
+    def _get_handle(self, record: dict) -> _Handle:
         sensor_id = record["sensor_id"]
 
         date = datetime.now().strftime("%Y-%m-%d")
