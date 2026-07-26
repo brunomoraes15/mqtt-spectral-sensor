@@ -3,8 +3,8 @@ import logging
 
 MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
-MQTT_TOPICS = ["sensor/data", "sensor/command"]
- 
+MQTT_TOPICS = ["sensor/data", "sensor/command", "sensor/config"]
+MQTT_DATA_TOPIC = "sensor/data"
 OUTPUT_DIR = os.getenv("OUTPUT_DIR", "sensor/data")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 

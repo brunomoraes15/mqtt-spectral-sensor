@@ -72,16 +72,20 @@ class MQTTClient:
             return
 
     def process_message(self, topic: str, payload: str, writer: FileWriter) -> None:
-        try:
-            validate_payload(payload.strip().split(","))
-            record = parse_payload(payload)
-
-        except Exception as e:
-            logger.error(f"Error while processing payload on topic {topic}: {str(e)}")
+        if topic != MQTT_DATA_TOPIC:
+            logger.debug("Ignoring message on non-data topic %s", topic)
             return
+
+        try:
+            record = parse_payload(payload)
+        except PayloadValidationError as e:
+            logger.error("Invalid payload on topic %s: %s", topic, e)
+            return
+
         try:
             writer.append(record)
-        except OSError as e:
-            logger.error(f"Error writing record to file: {str(e)}")
+        except Exception:
+            logger.exception("Error writing record to file (topic %s)", topic)
+            return
 
-        logger.info(f"Processed message on topic {topic}: {record}")
+        logger.info("Processed message on topic %s: %s", topic, record)
