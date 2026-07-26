@@ -1,6 +1,7 @@
 from config import *
+import os
 
-def validate_payload(fields: list[str]) -> None:
+def validate_payload( fields: list[str]) -> None:
     print(len(fields))
     if len(fields) != PAYLOAD_SIZE:
         raise Exception(
@@ -18,4 +19,3 @@ def parse_payload(payload: str) -> dict:
 
     validate_payload(record)
     return record
-

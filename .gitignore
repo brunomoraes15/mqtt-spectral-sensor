@@ -9,3 +9,4 @@
 lib/credentials/credentials.h
 
 test.py
+data/

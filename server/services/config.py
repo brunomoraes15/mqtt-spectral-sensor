@@ -1,3 +1,15 @@
+import os, logging
+
+MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
+MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
+MQTT_TOPICS = ["sensor/data", "sensor/command"]
+ 
+OUTPUT_DIR = os.getenv("CSV_OUTPUT_DIR", "data")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
+
+logger = logging.getLogger(__name__)
+
 PAYLOAD_FORMAT = {
     "timestamp": int,
     "sensor_id": int,
@@ -20,3 +32,5 @@ PAYLOAD_FORMAT = {
 }
 
 PAYLOAD_SIZE = len(PAYLOAD_FORMAT)
+
+OUTPUT_DIR = "data"
