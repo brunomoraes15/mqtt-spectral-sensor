@@ -1,9 +1,11 @@
-from config import *
+import time
 from typing import Callable
 
 import paho.mqtt.client as mqtt
-from services.parser import parse_payload, validate_payload
-from services.writer import FileWriter
+
+from config import *
+from parser import *
+from writer import FileWriter
 
 MessageHandler = Callable[[str, str], None]
 
@@ -24,13 +26,31 @@ class MQTTClient:
 
     def setup(self)->None:
         logger.info("Connecting to MQTT broker %s:%d", self._broker, self._port)
-        self._client.connect(self._broker, self._port)
+
+        max_attempts = 5
+        backoff_seconds = 2
+        for attempt in range(1, max_attempts + 1):
+            try:
+                self._client.connect(self._broker, self._port)
+                return
+            except OSError as e:
+                logger.warning(
+                    "Failed to connect to MQTT broker %s:%d (attempt %d/%d): %s",
+                    self._broker, self._port, attempt, max_attempts, e,
+                )
+                if attempt == max_attempts:
+                    raise
+                time.sleep(backoff_seconds)
+                backoff_seconds *= 2
+
+    def disconnect(self) -> None:
+        self._client.disconnect()
 
     def maintain(self) -> None:
         self._client.loop_forever()
 
     def _on_connect(self, client, userdata, flags, reason_code, properties:None):
-        if reason_code == mqtt.ReasonCodes.SUCCESS:
+        if reason_code == 0:
             logger.info("Connected to MQTT broker %s:%d", self._broker, self._port)
             for topic in self._topics:
                 client.subscribe(topic)

@@ -2,22 +2,26 @@ import csv
 import logging
 import os
 import threading
+from dataclasses import dataclass
 from datetime import datetime
-from typing import TextIO
+from typing import Any, TextIO
 
 from config import *
 
+@dataclass
+class _Handle:
+    date: str
+    file: TextIO
+    writer: Any
 
+logger = logging.getLogger(__name__)
 
 class FileWriter:
     def __init__(self, output_dir: str):
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
 
-        self._handles: dict[
-            tuple[int, str],
-            tuple[TextIO, csv.writer]
-        ] = {}
+        self._handles: dict[int, _Handle] = {}
 
         self._lock = threading.Lock()
 
@@ -37,16 +41,18 @@ class FileWriter:
 
             self._handles.clear()
 
-    def _get_writer(self, record: dict) -> tuple[csv.writer, TextIO]:
+    def _get_writer(self, record: dict) -> _Handle:
         sensor_id = record["sensor_id"]
-        date = datetime.fromtimestamp(record["timestamp"]).strftime("%Y-%m-%d")
-        key = (sensor_id, date)
 
-        if key in self._handles:
-            file, writer = self._handles[key]
-            return writer, file
+        date = datetime.now().strftime("%Y-%m-%d")
 
-        path = os.path.join(self.output_dir,f"{sensor_id}-{date}.csv")
+        existing = self._handles.get(sensor_id)
+        if existing is not None:
+            if existing.date == date:
+                return existing
+            existing.file.close()
+
+        path = os.path.join(self.output_dir, f"{sensor_id}-{date}.csv")
 
         is_new = not os.path.exists(path)
 
@@ -58,6 +64,7 @@ class FileWriter:
             file.flush()
             logger.info("Created file: %s", path)
 
-        self._handles[key] = (file, writer)
+        handle = _Handle(date=date, file=file, writer=writer)
+        self._handles[sensor_id] = handle
 
-        return writer, file
+        return handle

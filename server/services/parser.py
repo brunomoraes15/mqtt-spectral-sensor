@@ -1,12 +1,15 @@
 from config import *
-import os
 
-def validate_payload( fields: list[str]) -> None:
-    print(len(fields))
+
+class PayloadValidationError(ValueError):
+    pass
+
+def validate_payload(fields: list[str]) -> None:
     if len(fields) != PAYLOAD_SIZE:
-        raise Exception(
+        raise PayloadValidationError(
             f"Expected {PAYLOAD_SIZE} fields, got {len(fields)}"
         )
+
 
 def parse_payload(payload: str) -> dict:
     fields = payload.strip().split(",")
@@ -14,8 +17,12 @@ def parse_payload(payload: str) -> dict:
 
     record = {}
 
-    for (name, type), data in zip(PAYLOAD_FORMAT.items(), fields):
-        record[name] = type(data)
+    for (name, field_type), data in zip(PAYLOAD_FORMAT.items(), fields):
+        try:
+            record[name] = field_type(data)
+        except (TypeError, ValueError) as e:
+            raise PayloadValidationError(
+                f"Invalid value for field '{name}': {data!r} ({e})"
+            ) from e
 
-    validate_payload(record)
     return record
