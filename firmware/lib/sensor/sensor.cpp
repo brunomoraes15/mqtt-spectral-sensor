@@ -3,12 +3,12 @@
 #include "net_tools.h"
 
 Sensor::Sensor(
-    uint8_t sensor_id, 
-    TwoWire* wire, 
-    uint8_t sda, 
+    uint8_t sensor_id,
+    TwoWire* wire,
+    uint8_t sda,
     uint8_t scl
 ) {
-    _sensor_id = sensor_id; 
+    _sensor_id = sensor_id;
     _wire =  wire;
     _sda  =  sda;
     _scl  =  scl;
@@ -16,8 +16,6 @@ Sensor::Sensor(
     _astep = 599;
     _again = AS7341_GAIN_64X;
 };
-
-Sensor sensor(1, &Wire, 21, 22);
 
 bool Sensor::begin(){
     _wire->begin(_sda, _scl);
@@ -34,7 +32,8 @@ bool Sensor::read(sensor_sample& sample){
     if (!_sensor.readAllChannels())  return false;
     sample.sensor_id = _sensor_id;
     sample.timestamp_ms = millis();
-    strcpy(sample.mac_address, WiFi.macAddress().c_str());
+    strncpy(sample.mac_address, WiFi.macAddress().c_str(), sizeof(sample.mac_address) - 1);
+    sample.mac_address[sizeof(sample.mac_address) - 1] = '\0';
 
     sample.f1 =   _sensor.getChannel(AS7341_CHANNEL_415nm_F1);
     sample.f2 =   _sensor.getChannel(AS7341_CHANNEL_445nm_F2);
@@ -57,5 +56,4 @@ bool Sensor::read(sensor_sample& sample){
         2.78;
 
     return true;
-
 };

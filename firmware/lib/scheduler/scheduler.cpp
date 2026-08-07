@@ -1,6 +1,6 @@
 #include "scheduler.h"
 #include "mqtt.h"
-#include "sensor.h"
+#include "sensor_manager.h"
 #include "package_builder.h"
 
 Scheduler::Scheduler() : _check_timer(0) {}
@@ -46,15 +46,16 @@ void Scheduler::check(){
         _check_timer = millis();
 
         if (_state == RunState::RUNNING) {
-           sensor_sample sample;
-           if (sensor.read(sample)){
-            String payload = Payload::build_payload(sample);
-            mqtt.publish("sensor/data", payload.c_str());
-            _sample_count++;
-           }
-           else {
-            Serial.println("Sensor read failed");
-           }
+            sensor_sample samples[MAX_SENSORS];
+            uint8_t count = 0;
+
+            sensor_manager.read_all(samples, MAX_SENSORS, count);
+
+            for (uint8_t i = 0; i < count; i++) {
+                String payload = Payload::build_payload(samples[i]);
+                mqtt.publish("sensor/data", payload.c_str());
+                _sample_count++;
+            }
         }
     
     }

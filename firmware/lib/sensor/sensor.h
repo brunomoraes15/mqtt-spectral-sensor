@@ -18,12 +18,15 @@ typedef struct sensor_sample {
     uint16_t int_time;
 } sensor_sample;
 
+
 class Sensor {
 public:
 
     Sensor(uint8_t sensor_id, TwoWire* wire, uint8_t sda, uint8_t scl);
     bool begin();
     bool read(sensor_sample& sample);
+
+    uint8_t id() const { return _sensor_id; }
 
 private:
     uint8_t _sensor_id;
@@ -35,5 +38,3 @@ private:
     uint16_t _astep;
     uint16_t _again;
 };
-
-extern Sensor sensor;
